@@ -24,7 +24,7 @@ public class voting {
          LocalDate currentDate = LocalDate.now();
         String dateString = currentDate.toString();
         JOptionPane.showMessageDialog(null,"Welcome to Voting app");
-        String name,part,nami;
+        String name,nami;
         int aadhar=0;
         name=JOptionPane.showInputDialog("Enter your name");
         if(doesNameExist(name)){
@@ -171,7 +171,7 @@ public class voting {
              String deleteSQL = "DELETE FROM parties WHERE name = ?";
             PreparedStatement pstmt = con.prepareStatement(deleteSQL);
             pstmt.setString(1, name);
-            int rowsAffected = pstmt.executeUpdate();
+          
 
             JOptionPane.showMessageDialog(null, "Party" + name + "' has been deleted successfully!");
 
