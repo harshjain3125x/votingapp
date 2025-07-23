@@ -121,7 +121,7 @@ public class voting {
         // code to create party table 
         
             String createTableSQL = "CREATE TABLE IF NOT EXISTS " + name 
-                + "(name VARCHAR(100) NOT NULL, "
+                + "(name VARCHAR(100) UNIQUE, "
                 + "aadhar INT NOT NULL"
                 + ")";
         
