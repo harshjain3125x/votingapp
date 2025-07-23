@@ -25,12 +25,63 @@ public class voting {
         String dateString = currentDate.toString();
         JOptionPane.showMessageDialog(null,"Welcome to Voting app");
         String name,part,nami;
+        int aadhar=0;
         name=JOptionPane.showInputDialog("Enter your name");
         if(doesNameExist(name)){
             JOptionPane.showMessageDialog(null,"Enter the name of party you want to vote");
             partytable();
-
             nami=JOptionPane.showInputDialog("Which party you want to vote");
+             try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+                     PreparedStatement preparedStatement = connection.prepareStatement(
+                         "INSERT INTO candidate(party) VALUES(?)")) {
+                    
+                    
+                    preparedStatement.setString(1,nami);
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Voted Sucessfully");
+                    }
+                   
+                    
+                } catch (SQLException e) {
+                    System.out.println("Error found");
+                
+                }
+                 try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "SELECT adhno FROM candidate WHERE name=?")) {
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+                 
+            if (rs.next()) {
+                aadhar= rs.getInt("adhno");
+
+        }
+            }
+            
+        catch (SQLException e) {
+            System.out.println("Aadhar not found");
+        }
+                String query="INSERT INTO "+nami+"(name,aadhar) VALUES (?,?)";
+                try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+                     PreparedStatement preparedStatement = connection.prepareStatement(
+                         query)) {
+                    
+                    
+                    preparedStatement.setString(1,name);
+                    preparedStatement.setInt(2,aadhar);
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Voted Sucessfully");
+                    }
+                   
+                    
+                } catch (SQLException e) {
+                    System.out.println("Error found");
+                
+                }
 
 
         }
@@ -75,7 +126,7 @@ public class voting {
                 + ")";
         
                 try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            
             Connection con = DriverManager.getConnection(DB_URL, DB_USER,DB_PASSWORD);
             Statement stmt = con.createStatement();
             stmt.executeUpdate(createTableSQL);
@@ -85,12 +136,8 @@ public class voting {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        
-        
-    
-                }
-                if(problem.equalsIgnoreCase("update")){
+        }  }
+                if(problem.equalsIgnoreCase("delete")){
                     name=JOptionPane.showInputDialog("Enter the name of party you want to delete");
                     try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                      PreparedStatement preparedStatement = connection.prepareStatement(
@@ -110,11 +157,10 @@ public class voting {
                     System.out.println("Error found");   
         }
 
-                }
+                
 
 
-                else{
-                    name=JOptionPane.showInputDialog("Enter the name of the party you want to delete");
+                
                     String dropTableSQL = "DROP TABLE IF EXISTS " + name;
 
         try {
@@ -213,6 +259,7 @@ public class voting {
         tk();
         
        }
+       
         option=JOptionPane.showConfirmDialog(null, "Do you want to see the Detailed Table","Confirm",JOptionPane.YES_NO_OPTION);
         if(option==JOptionPane.YES_OPTION){
             partytable();
@@ -226,15 +273,17 @@ public class voting {
             name=JOptionPane.showInputDialog("Enter your name");
             passw=Integer.parseInt(JOptionPane.showInputDialog("Enter your pass"));
             age=Integer.parseInt(JOptionPane.showInputDialog("Enter your age"));
+            aadhar=Integer.parseInt(JOptionPane.showInputDialog("Enter your Aadhar no"));
             try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                      PreparedStatement preparedStatement = connection.prepareStatement(
-                         "INSERT INTO candidate(name,age,party,regdat,pass) VALUES(?, ?, ?, ?, ?)")) {
+                         "INSERT INTO candidate(name,age,party,regdat,pass,adhno) VALUES(?, ?, ?, ?, ?,?)")) {
                     
                     preparedStatement.setString(1, name);
                     preparedStatement.setInt(2, age);
                     preparedStatement.setString(3,"");
                     preparedStatement.setString(4,dateString);
                     preparedStatement.setInt(5,passw);
+                      preparedStatement.setInt(6,aadhar);
                     
                     int rowsAffected = preparedStatement.executeUpdate();
                     
@@ -312,6 +361,13 @@ public class voting {
         frame.add(scrollPane);
         frame.setVisible(true);
     }
+    }
+    public static void chpos(){
+         JFrame dummyFrame = new JFrame();
+        dummyFrame.setUndecorated(true); // Hide title bar
+        dummyFrame.setSize(1, 1); // Small invisible frame
+        dummyFrame.setLocation(300, 200); // Set desired location
+        dummyFrame.setVisible(true);
     }
 
     }
