@@ -1,0 +1,10 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\hello world\\jcommon-1.0.23.jar",
+        "c:\\hello world\\jfreechart-1.0.19.jar",
+        "c:\\hello world\\jfreechart-1.0.19-experimental.jar",
+        "c:\\hello world\\jfreechart-1.0.19-swt.jar",
+        "c:\\hello world\\mysql-connector-j-9.3.0 (1)\\mysql-connector-j-9.3.0\\mysql-connector-j-9.3.0.jar"
+    ]
+}
