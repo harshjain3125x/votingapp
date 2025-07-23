@@ -27,7 +27,11 @@ public class voting {
         String name,part,nami;
         name=JOptionPane.showInputDialog("Enter your name");
         if(doesNameExist(name)){
+            JOptionPane.showMessageDialog(null,"Enter the name of party you want to vote");
+            partytable();
+
             nami=JOptionPane.showInputDialog("Which party you want to vote");
+
 
         }
         else{
@@ -211,37 +215,8 @@ public class voting {
        }
         option=JOptionPane.showConfirmDialog(null, "Do you want to see the Detailed Table","Confirm",JOptionPane.YES_NO_OPTION);
         if(option==JOptionPane.YES_OPTION){
-        {JFrame frame = new JFrame("Available Parties");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-
-        DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("Car Name");
-        tableModel.addColumn("Price (₹)");
-        String koi;
-        koi="SELECT NAME,VOTES FROM "+name;
+            partytable();
         
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(koi)) {
-            
-            
-            while (resultSet.next()) {
-                String carName = resultSet.getString("car_name");
-                int carPrice = resultSet.getInt("price");
-                tableModel.addRow(new Object[]{carName, String.format("%,d", carPrice)});
-            }
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"Error found");
-            return;
-        }
-        
-        JTable table = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane);
-        frame.setVisible(true);
-    }
         tk();
             System.exit(0);
         }}
@@ -301,6 +276,42 @@ public class voting {
             e.printStackTrace();
             return false; // or rethrow/handle as needed
         }
+    }
+    public static void partytable(){
+        final String DB_URL = "jdbc:mysql://127.0.0.1:3306/votingback";
+        final String DB_USER = "root";
+        final String DB_PASSWORD = "5202";
+        {JFrame frame = new JFrame("Available Parties");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.addColumn("Party Name");
+        tableModel.addColumn("Votes");
+        String koi;
+        koi="SELECT NAME,VOTES FROM parties";
+        
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(koi)) {
+            
+            
+            while (resultSet.next()) {
+                String Name = resultSet.getString("name");
+                int Votes = resultSet.getInt("votes");
+                tableModel.addRow(new Object[]{Name, String.format("%,d", Votes)});
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"Error found");
+            return;
+        }
+        
+        JTable table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane);
+        frame.setVisible(true);
+    }
     }
 
     }
