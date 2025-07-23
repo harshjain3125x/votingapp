@@ -48,6 +48,7 @@ public class voting {
                     System.out.println("Error found");
                 
                 }
+                
                  try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
                  "SELECT adhno FROM candidate WHERE name=?")) {
@@ -82,6 +83,35 @@ public class voting {
                     System.out.println("Error found");
                 
                 }
+                
+
+         query = "UPDATE parties SET votes = votes + 1 WHERE name = ?";
+
+        try {
+            
+            
+          
+            Connection conn = DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWORD);
+
+            
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, nami);
+
+          
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Vote count updated successfully for party: " + nami);
+            } else {
+                System.out.println("Party not found: " + nami);
+            }
+
+            // Close connection
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         }
