@@ -399,13 +399,7 @@ public class voting {
         frame.setVisible(true);
     }
     }
-    public static void chpos(){
-         JFrame dummyFrame = new JFrame();
-        dummyFrame.setUndecorated(true); // Hide title bar
-        dummyFrame.setSize(1, 1); // Small invisible frame
-        dummyFrame.setLocation(300, 200); // Set desired location
-        dummyFrame.setVisible(true);
-    }
+    
 
     }
     
