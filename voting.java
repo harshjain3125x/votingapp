@@ -152,7 +152,7 @@ public class voting {
         
             String createTableSQL = "CREATE TABLE IF NOT EXISTS " + name 
                 + "(name VARCHAR(100) UNIQUE, "
-                + "aadhar INT NOT NULL"
+                + "aadhar INT UNIQUE"
                 + ")";
         
                 try {
