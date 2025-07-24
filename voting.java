@@ -31,6 +31,7 @@ public class voting {
             JOptionPane.showMessageDialog(null,"Enter the name of party you want to vote");
             partytable();
             nami=JOptionPane.showInputDialog("Which party you want to vote");
+            //adding party to candidate data
              try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                      PreparedStatement preparedStatement = connection.prepareStatement(
                          "INSERT INTO candidate(party) VALUES(?)")) {
@@ -48,6 +49,7 @@ public class voting {
                     System.out.println("Error found");
                 
                 }
+                //fetching aadhar no 
                 
                  try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
@@ -64,6 +66,7 @@ public class voting {
         catch (SQLException e) {
             System.out.println("Aadhar not found");
         }
+        //adding name and aadhar no in specified party table 
                 String query="INSERT INTO "+nami+"(name,aadhar) VALUES (?,?)";
                 try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                      PreparedStatement preparedStatement = connection.prepareStatement(
@@ -84,7 +87,7 @@ public class voting {
                 
                 }
                 
-
+//updating party votes in table parties
          query = "UPDATE parties SET votes = votes + 1 WHERE name = ?";
 
         try {
@@ -125,6 +128,7 @@ public class voting {
                 JOptionPane.showMessageDialog(null,"Developer login Sucessfully");
                 String problem;
                 problem=JOptionPane.showInputDialog("Enter Insert/Delete");
+                //adding party to table parties
                 if(problem.equalsIgnoreCase("insert")){
                     name=JOptionPane.showInputDialog("Enter the name of party you want to add");
                     passw=Integer.parseInt(JOptionPane.showInputDialog("Create Password"));
@@ -167,6 +171,7 @@ public class voting {
         } catch (Exception e) {
             e.printStackTrace();
         }  }
+        //deleting party record from table parties
                 if(problem.equalsIgnoreCase("delete")){
                     name=JOptionPane.showInputDialog("Enter the name of party you want to delete");
                     try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -190,7 +195,7 @@ public class voting {
                 
 
 
-                
+                //deleting that party table
                     String dropTableSQL = "DROP TABLE IF EXISTS " + name;
 
         try {
@@ -225,6 +230,7 @@ public class voting {
             JOptionPane.showMessageDialog(null,"Welcome to Voting app");
             name=JOptionPane.showInputDialog("Enter your registered Party name");
             passw=Integer.parseInt(JOptionPane.showInputDialog("Enter your password"));
+            //checking is password correct or not
             try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
                  "SELECT pass FROM parties WHERE name=?")) {
@@ -292,6 +298,7 @@ public class voting {
        
         option=JOptionPane.showConfirmDialog(null, "Do you want to see the Detailed Table","Confirm",JOptionPane.YES_NO_OPTION);
         if(option==JOptionPane.YES_OPTION){
+            //showing party table data
             partytable();
         
         tk();
