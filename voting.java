@@ -338,10 +338,10 @@ public class voting {
             pstmt.setString(1, nameToCheck);
             ResultSet rs = pstmt.executeQuery();
 
-            return rs.next(); // returns true if a row exists
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // or rethrow/handle as needed
+            return false; 
         }
     }
 
